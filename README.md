@@ -2,4 +2,4 @@
 
 # songwriter
 
-Let's create songs with your computer
+Let's create songs using your keyboard
