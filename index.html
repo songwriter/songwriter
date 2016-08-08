@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Tim's world</title>
+</head>
+<body>
+	<h1>Let's create our own songs</h1>
+	<p id="notes">Notes: </p>
+
+  <script type="text/javascript">
+  /**********************************************
+  Things need to be improved:
+	  faster reaction;
+	  more keys;
+	  long press reaction;    //may be the hardest part
+	  record the notes been played;
+	  replay the music been played by the player;
+  ******************************************************/ 
+
+
+  var notes = document.getElementById('notes');
+
+
+  var keydata = [
+	  {key: 'A', sound: 'c3', note: '1'},          //'A' cannot be 'a', but I don't know why???
+	  {key: 'S', sound: 'd3', note: '2'},
+	  {key: 'D', sound: 'e3', note: '3'},
+	  {key: 'F', sound: 'f3', note: '4'},
+	  {key: 'G', sound: 'g3', note: '5'},
+	  {key: 'H', sound: 'a3', note: '6'},
+	  {key: 'J', sound: 'b3', note: '7'},
+	  {key: 'K', sound: 'c4', note: 'i'},
+  ];
+
+  document.addEventListener('keydown', function(e){
+	  var kc = String.fromCharCode(e.keyCode);     //get the keycode of the 'keydown'
+	  console.log(kc);
+	  for(var i = 0; i< keydata.length; i++) {
+		  if(kc == keydata[i].key) {  // if the 'down key' is the same of one of the 'key' inside the keydata[], play the sound 
+			  notes.innerHTML = notes.innerHTML + keydata[i].note;  // write the note into &lt;p&gt;
+			  var audioObj = new Audio('raw/' + keydata[i].sound + '.ogg');
+			  audioObj.play();
+		  }
+	  }
+  },false);
+
+  </script>
+</body>
+</html>

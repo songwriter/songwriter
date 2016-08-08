@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+    <title>Keyboard Music</title>
+</head>
+
+<body onkeydown = "playNote(event)">
+<h1>按下qwertyui键 代表1234567i</h1>
+<h2>按下asdfghjk键 代表1234567i</h2>
+<h3>按下zxcvbnm键, 代表1234567</h3>
+<p id = "p" >按键: </p>
+
+
+            <script  type='text/javascript'>
+/*******编好程序发现发不出声音, 最后发现竟然是因为声卡发不出130hz 的声音, 是硬件的原因!!!!!
+
+亮瞎我的眼睛! 
+problem: 如何提高debug 的能力???@***********/
+/***************what I have learned:
+没有完美的机器, 在进行一个项目的过程中总会发现原来的设计有不好的地方. 不要急着马上改进, 
+
+先实现基本的功能, 之后再考虑改进的事. 否则, 项目的时间会拖得很长, 使自己失去兴致! 把握一
+
+个度!***********/
+
+var context = new window.AudioContext();
+
+var gainNode = context.createGain(); //create Gain
+gainNode.connect(context.destination);        //connect gainNode to destination
+gainNode.gain.value = 0;              //调成静音
+
+var osc = context.createOscillator();   //create Oscillator
+osc.connect(gainNode);       //connect osc to gainNode
+osc.start(0);        //oscillator 开始发出正弦波
+
+
+
+ /****************************按下键盘之后调用的函数*****************/
+function playNote(event){
+        /****写下按键音符****/
+        write(event.which);
+        /*****发出对应声音****/
+        play(event);
+        
+}
+/****************************写下按键音符****/
+function write(e){
+        document.getElementById("p").innerHTML += String.fromCharCode(e);
+        //HTML必须大写!!!!@
+}
+
+/*************************发出按键对应声音****/
+var time = 0;
+var tao = 5000;
+var timmer0; // 全局ID of timmer0
+
+function play(event){
+        //设定频率
+        switch(String.fromCharCode(event.which)){
+                case "q": osc.frequency.value = 130.8;
+                break;
+                case "W": osc.frequency.value = 146.8;
+                break;
+                case "E": osc.frequency.value = 164.8;
+                break;
+                case "R": osc.frequency.value = 174.6;
+                break;
+                case "T": osc.frequency.value = 196.0;
+                break;
+                case "Y": osc.frequency.value = 220.0;
+                break;
+                case "U": osc.frequency.value = 246.9;
+                break;
+                case "A": osc.frequency.value = 261.6;
+                break;
+                case "I": osc.frequency.value = 261.6;
+                break;
+                case "S": osc.frequency.value = 293.67;
+                break;
+                case "D": osc.frequency.value = 329.63;
+                break;
+                case "F": osc.frequency.value = 349.2;
+                break;
+                case "G": osc.frequency.value = 392.0;
+                break;
+                case "H": osc.frequency.value = 440.0;
+                break;
+                case "J": osc.frequency.value = 493.9;
+                break;
+                case "Z": osc.frequency.value = 523.25;
+                break;
+                case "K": osc.frequency.value = 523.25;
+                break;
+                case "X": osc.frequency.value = 587.33;
+                break;
+                case "C": osc.frequency.value = 659.26;
+                break;
+                case "V": osc.frequency.value = 698.46;
+                break;
+                case "B": osc.frequency.value = 784.0;
+                break;
+                case "N": osc.frequency.value = 880.0;
+                break;
+                case "M": osc.frequency.value = 987.77;
+                break;
+                case ",": osc.frequency.value = 1046.5;
+                break;
+                default: console.log("对不起, 此键无对应声音")
+        }
+        //发出声音
+        time = 0;
+        clearInterval(timmer0);        //清空定时执行器
+        gainNode.gain.value = 1;        //开启声音
+        timmer0 = setInterval(lower, 50);  //减弱声音
+}
+
+function lower(){
+        time += 50;
+        if(gainNode.gain.value >= 0.001) 
+                gainNode.gain.value = gainNode.gain.value * Math.exp(- time / tao);
+        else 
+                clearInterval(timmer0);
+}
+        </script>
+</body>
