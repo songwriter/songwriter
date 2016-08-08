@@ -1,3 +1,5 @@
+> not ready! developing
+
 # songwriter
 
-> developing
+Let's create songs with your computer
